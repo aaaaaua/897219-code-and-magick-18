@@ -7,7 +7,9 @@ var GAP = 10;
 var BAR_HEIGHT = 150;
 var BAR_WIDTH = 40;
 var BAR_OFFSET_X = 50;
-var TEXT_HEIGHT = 255;
+var BAR_OFFSET_Y = 100;
+var TEXT_NAMES_Y_OFFSET = 255;
+var TEXT_TIMES_Y_OFFSET = 70;
 var YOU_SCORE = 'Вы';
 
 var getMaxElement = function (arr) {
@@ -61,11 +63,11 @@ var renderBar = function (ctx, names, times) {
     var offset = BAR_HEIGHT - (BAR_HEIGHT * times[i]) / maxTime;
 
     ctx.fillStyle = '#000';
-    ctx.fillText(Math.round(times[i]), CLOUD_X + BAR_OFFSET_X + (BAR_WIDTH + BAR_OFFSET_X) * i, CLOUD_Y + 70);
+    ctx.fillText(Math.round(times[i]), CLOUD_X + BAR_OFFSET_X + (BAR_WIDTH + BAR_OFFSET_X) * i, CLOUD_Y + TEXT_TIMES_Y_OFFSET);
     ctx.fillStyle = '#000';
-    ctx.fillText(names[i], CLOUD_X + BAR_OFFSET_X + (BAR_WIDTH + BAR_OFFSET_X) * i, TEXT_HEIGHT);
+    ctx.fillText(names[i], CLOUD_X + BAR_OFFSET_X + (BAR_WIDTH + BAR_OFFSET_X) * i, TEXT_NAMES_Y_OFFSET);
     ctx.fillStyle = color;
-    ctx.fillRect(CLOUD_X + BAR_OFFSET_X + (BAR_WIDTH + BAR_OFFSET_X) * i, 100 + offset, 40, (BAR_HEIGHT * times[i]) / maxTime);
+    ctx.fillRect(CLOUD_X + BAR_OFFSET_X + (BAR_WIDTH + BAR_OFFSET_X) * i, BAR_OFFSET_Y + offset, BAR_WIDTH, (BAR_HEIGHT * times[i]) / maxTime);
   }
 };
 
