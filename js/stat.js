@@ -26,8 +26,7 @@ var getMaxElement = function (arr) {
 
 // Случайное значание
 var getRandomValue = function (min, max) {
-  var rand = min - 0.5 + Math.random() * (max - min + 1);
-  rand = Math.round(rand);
+  var rand = min + Math.random() * (max - min);
   return rand;
 };
 
