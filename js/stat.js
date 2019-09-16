@@ -31,22 +31,23 @@ var getRandomValue = function (min, max) {
   return rand;
 };
 
-// Отрисовка облака
+// Генерация облака
 var renderCloud = function (ctx, x, y, width, color) {
   var offsetHorizontally = 10;
   var offsetVertically = 15;
+  var cloudSideRibs = 18;
 
   ctx.fillStyle = color;
   ctx.beginPath();
   ctx.moveTo(x, y);
   ctx.lineTo(x + width, y);
 
-  for (var i = 1; i <= 18; i = i + 2) {
+  for (var i = 1; i <= cloudSideRibs; i = i + 2) {
     ctx.lineTo(x + width - offsetHorizontally, y + offsetVertically * i);
     ctx.lineTo(x + width, y + offsetVertically * (i + 1));
   }
 
-  for (var j = 18; j >= 1; j = j - 2) {
+  for (var j = cloudSideRibs; j >= 1; j = j - 2) {
     ctx.lineTo(x, y + offsetVertically * j);
     ctx.lineTo(x + offsetHorizontally, y + offsetVertically * (j - 1));
   }
@@ -55,7 +56,7 @@ var renderCloud = function (ctx, x, y, width, color) {
   ctx.fill();
 };
 
-// Отрисовка результатов
+// Генерация результатов
 var renderBar = function (ctx, names, times) {
   for (var i = 0; i < names.length; i++) {
     var color = names[i] === YOU_SCORE ? 'rgba(255, 0, 0, 1)' : 'hsl(238, 100%,' + getRandomValue(10, 90) + '%)';
@@ -71,17 +72,22 @@ var renderBar = function (ctx, names, times) {
   }
 };
 
+var renderWinMessage = function (ctx) {
+  var winMessageX = 123;
+  var winMessageY = 25;
+
+  ctx.font = 'bold 16px PT Mono';
+  ctx.textBaseline = 'hanging';
+  ctx.fillStyle = '#000000';
+  ctx.fillText('Ура вы победили!', winMessageX, winMessageY);
+  ctx.fillText('Список результатов:', winMessageX, winMessageY + GAP * 2);
+};
 
 window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, CLOUD_WIDTH, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_WIDTH, '#fff');
 
-  ctx.font = 'bold 16px PT Mono';
-  ctx.textBaseline = 'hanging';
-  ctx.fillStyle = '#000000';
-  ctx.fillText('Ура вы победили!', 123, 25);
-  ctx.fillText('Список результатов:', 123, 45);
-
+  renderWinMessage(ctx);
   renderBar(ctx, names, times);
 };
 
