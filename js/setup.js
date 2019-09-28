@@ -2,6 +2,7 @@
 
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
+var hidden = 'hidden';
 
 var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
@@ -12,6 +13,7 @@ var setupUserWizard = document.querySelector('.setup-wizard');
 var wizardCoat = setupUserWizard.querySelector('.wizard-coat');
 var wizardEyes = setupUserWizard.querySelector('.wizard-eyes');
 var wizardFireball = document.querySelector('.setup-fireball-wrap');
+var wizardFireballInput = wizardFireball.querySelector('input');
 
 
 var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
@@ -86,7 +88,7 @@ var onPopupEscPress = function (evt) {
 };
 
 var openPopup = function () {
-  setup.classList.remove('hidden');
+  setup.classList.remove(hidden);
   document.addEventListener('keydown', onPopupEscPress);
 
   userName.addEventListener('focus', function () {
@@ -124,14 +126,16 @@ setupClose.addEventListener('keydown', function (evt) {
 });
 
 // функции для изменения цвета персонажа по клику
-var setWizardCoatColor = function (coatColor) {
-  wizardCoat.style.fill = getRandomArrValue(coatColor);
+var setWizardCoatColor = function (coatColorArr) {
+  wizardCoat.style.fill = getRandomArrValue(coatColorArr);
 };
-var setWizardEyesColor = function (eyesColor) {
-  wizardEyes.style.fill = getRandomArrValue(eyesColor);
+var setWizardEyesColor = function (eyesColorArr) {
+  wizardEyes.style.fill = getRandomArrValue(eyesColorArr);
 };
-var setWizardFireballColor = function (fireballColor) {
-  wizardFireball.style.backgroundColor = getRandomArrValue(fireballColor);
+var setWizardFireballColor = function (fireballColorArr) {
+  var fireballCollor = getRandomArrValue(fireballColorArr);
+  wizardFireball.style.backgroundColor = fireballCollor;
+  wizardFireballInput.value = fireballCollor;
 };
 
 wizardCoat.addEventListener('click', function () {
