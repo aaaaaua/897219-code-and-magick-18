@@ -10,8 +10,13 @@ var setupClose = setup.querySelector('.setup-close');
 var userName = document.querySelector('.setup-user-name');
 
 var setupUserWizard = document.querySelector('.setup-wizard');
+
 var wizardCoat = setupUserWizard.querySelector('.wizard-coat');
+var wizardCoatInput = document.querySelector('input[name=coat-color]');
+
 var wizardEyes = setupUserWizard.querySelector('.wizard-eyes');
+var wizardEyesInput = document.querySelector('input[name=eyes-color]');
+
 var wizardFireball = document.querySelector('.setup-fireball-wrap');
 var wizardFireballInput = wizardFireball.querySelector('input');
 
@@ -127,10 +132,14 @@ setupClose.addEventListener('keydown', function (evt) {
 
 // функции для изменения цвета персонажа по клику
 var setWizardCoatColor = function (coatColorArr) {
-  wizardCoat.style.fill = getRandomArrValue(coatColorArr);
+  var coatCollor = getRandomArrValue(coatColorArr);
+  wizardCoat.style.fill = coatCollor;
+  wizardCoatInput.value = coatCollor;
 };
 var setWizardEyesColor = function (eyesColorArr) {
-  wizardEyes.style.fill = getRandomArrValue(eyesColorArr);
+  var eyesCollor = getRandomArrValue(eyesColorArr);
+  wizardEyes.style.fill = eyesCollor;
+  wizardEyesInput.value = eyesCollor;
 };
 var setWizardFireballColor = function (fireballColorArr) {
   var fireballCollor = getRandomArrValue(fireballColorArr);
