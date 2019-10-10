@@ -1,7 +1,4 @@
 'use strict';
-
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 var hidden = 'hidden';
 
 var setup = document.querySelector('.setup');
@@ -23,14 +20,6 @@ var wizardFireballInput = wizardFireball.querySelector('input');
 
 var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var WIZARD_LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц Онопко', 'Топольницкая', 'Нионго Ирвинг'];
-var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
-var WIZARD_FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-
-// случайное значение из массива
-var getRandomArrValue = function (array) {
-  return array[Math.floor(Math.random() * array.length)];
-};
 
 var userDialog = document.querySelector('.setup');
 var similarListElement = userDialog.querySelector('.setup-similar-list');
@@ -43,9 +32,9 @@ userDialog.querySelector('.setup-similar').classList.remove('hidden');
 // функция создания персонажа
 var makeWizard = function (name, lastName, coatColor, eyesColor) {
   var wizard = {
-    name: getRandomArrValue(name) + ' ' + getRandomArrValue(lastName),
-    coatColor: getRandomArrValue(coatColor),
-    eyesColor: getRandomArrValue(eyesColor)
+    name: window.utils.getRandomArrValue(name) + ' ' + window.utils.getRandomArrValue(lastName),
+    coatColor: window.utils.getRandomArrValue(coatColor),
+    eyesColor: window.utils.getRandomArrValue(eyesColor)
   };
 
   return wizard;
@@ -55,7 +44,7 @@ var makeWizard = function (name, lastName, coatColor, eyesColor) {
 var makeWizardsArr = function () {
   var wizards = [];
   for (var i = 0; i < 4; i++) {
-    wizards.push(makeWizard(WIZARD_NAMES, WIZARD_LAST_NAMES, WIZARD_COAT_COLOR, WIZARD_EYES_COLOR));
+    wizards.push(makeWizard(WIZARD_NAMES, WIZARD_LAST_NAMES, window.WIZARD_COAT_COLOR, window.WIZARD_EYES_COLOR));
   }
   return wizards;
 };
@@ -87,9 +76,7 @@ createWizzards();
 // Реальзация открытия закрытия окна настройки персонажа
 
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    closePopup();
-  }
+  window.utils.isEscEvent(evt, closePopup);
 };
 
 var openPopup = function () {
@@ -108,6 +95,7 @@ var openPopup = function () {
 var closePopup = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
+  setup.style.cssText = '';
 };
 
 setupOpen.addEventListener('click', function () {
@@ -115,9 +103,7 @@ setupOpen.addEventListener('click', function () {
 });
 
 setupOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    openPopup();
-  }
+  window.utils.isEnterEvent(evt, openPopup);
 });
 
 setupClose.addEventListener('click', function () {
@@ -125,34 +111,9 @@ setupClose.addEventListener('click', function () {
 });
 
 setupClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
-    closePopup();
-  }
+  window.utils.isEnterEvent(evt, closePopup);
 });
 
-// функции для изменения цвета персонажа по клику
-var setWizardCoatColor = function (coatColorArr) {
-  var coatCollor = getRandomArrValue(coatColorArr);
-  wizardCoat.style.fill = coatCollor;
-  wizardCoatInput.value = coatCollor;
-};
-var setWizardEyesColor = function (eyesColorArr) {
-  var eyesCollor = getRandomArrValue(eyesColorArr);
-  wizardEyes.style.fill = eyesCollor;
-  wizardEyesInput.value = eyesCollor;
-};
-var setWizardFireballColor = function (fireballColorArr) {
-  var fireballCollor = getRandomArrValue(fireballColorArr);
-  wizardFireball.style.backgroundColor = fireballCollor;
-  wizardFireballInput.value = fireballCollor;
-};
-
-wizardCoat.addEventListener('click', function () {
-  setWizardCoatColor(WIZARD_COAT_COLOR);
-});
-wizardEyes.addEventListener('click', function () {
-  setWizardEyesColor(WIZARD_EYES_COLOR);
-});
-wizardFireball.addEventListener('click', function () {
-  setWizardFireballColor(WIZARD_FIREBALL_COLOR);
-});
+window.colorize(wizardCoat, window.WIZARD_COAT_COLOR, wizardCoatInput);
+window.colorize(wizardEyes, window.WIZARD_EYES_COLOR, wizardEyesInput);
+window.colorize(wizardFireball, window.WIZARD_FIREBALL_COLOR, wizardFireballInput);
