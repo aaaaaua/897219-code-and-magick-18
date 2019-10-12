@@ -1,8 +1,14 @@
 'use strict';
 (function () {
-
   var setupDialogElement = document.querySelector('.setup');
   var dialogHandler = setupDialogElement.querySelector('.upload');
+
+  var setup = document.querySelector('.setup');
+  var setupOpen = document.querySelector('.setup-open');
+  var setupClose = setup.querySelector('.setup-close');
+  var userName = document.querySelector('.setup-user-name');
+
+  var hidden = 'hidden';
 
   dialogHandler.addEventListener('mousedown', function (downEvt) {
     downEvt.preventDefault();
@@ -54,4 +60,43 @@
   });
 
 
+  // Реальзация открытия закрытия окна настройки персонажа
+  var onPopupEscPress = function (evt) {
+    window.utils.isEscEvent(evt, closePopup);
+  };
+
+  var openPopup = function () {
+    setup.classList.remove(hidden);
+    document.addEventListener('keydown', onPopupEscPress);
+
+    userName.addEventListener('focus', function () {
+      document.removeEventListener('keydown', onPopupEscPress);
+    });
+
+    userName.addEventListener('focusout', function () {
+      document.addEventListener('keydown', onPopupEscPress);
+    });
+  };
+
+  var closePopup = function () {
+    setup.classList.add('hidden');
+    document.removeEventListener('keydown', onPopupEscPress);
+    setup.style.cssText = '';
+  };
+
+  setupOpen.addEventListener('click', function () {
+    openPopup();
+  });
+
+  setupOpen.addEventListener('keydown', function (evt) {
+    window.utils.isEnterEvent(evt, openPopup);
+  });
+
+  setupClose.addEventListener('click', function () {
+    closePopup();
+  });
+
+  setupClose.addEventListener('keydown', function (evt) {
+    window.utils.isEnterEvent(evt, closePopup);
+  });
 })();

@@ -17,6 +17,10 @@ window.utils = (function () {
     },
     getRandomArrValue: function (array) {
       return array[Math.floor(Math.random() * array.length)];
+    },
+    getRandomValue: function (min, max) {
+      var rand = min + Math.random() * (max - min);
+      return rand;
     }
   };
 })();

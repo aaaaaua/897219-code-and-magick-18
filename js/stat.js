@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   var CLOUD_WIDTH = 420;
   var CLOUD_X = 100;
   var CLOUD_Y = 10;
@@ -24,12 +23,6 @@
     }
 
     return maxElement;
-  };
-
-  // Случайное значание
-  var getRandomValue = function (min, max) {
-    var rand = min + Math.random() * (max - min);
-    return rand;
   };
 
   // Генерация облака
@@ -60,7 +53,7 @@
   // Генерация результатов
   var renderBar = function (ctx, names, times) {
     for (var i = 0; i < names.length; i++) {
-      var color = names[i] === YOU_SCORE ? 'rgba(255, 0, 0, 1)' : 'hsl(238, 100%,' + getRandomValue(10, 90) + '%)';
+      var color = names[i] === YOU_SCORE ? 'rgba(255, 0, 0, 1)' : 'hsl(238, 100%,' + window.utils.getRandomValue(10, 90) + '%)';
       var maxTime = getMaxElement(times);
       var offset = BAR_HEIGHT - (BAR_HEIGHT * times[i]) / maxTime;
 
