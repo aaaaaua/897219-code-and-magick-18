@@ -12,14 +12,15 @@
   var wizardFireball = document.querySelector('.setup-fireball-wrap');
   var wizardFireballInput = wizardFireball.querySelector('input');
 
+  var LOAD_URL = 'https://js.dump.academy/code-and-magick/data111';
+  var SAVE_URL = 'https://js.dump.academy/code-and-magick1111/';
 
-  var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-  var WIZARD_LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц Онопко', 'Топольницкая', 'Нионго Ирвинг'];
   var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
   var WIZARD_FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
   var userDialog = document.querySelector('.setup');
+  var form = userDialog.querySelector('.setup-wizard-form');
   var similarListElement = userDialog.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template')
       .content
@@ -27,51 +28,56 @@
 
   userDialog.querySelector('.setup-similar').classList.remove('hidden');
 
-  // функция создания персонажа
-  var makeWizard = function (name, lastName, coatColor, eyesColor) {
-    var wizard = {
-      name: window.utils.getRandomArrValue(name) + ' ' + window.utils.getRandomArrValue(lastName),
-      coatColor: window.utils.getRandomArrValue(coatColor),
-      eyesColor: window.utils.getRandomArrValue(eyesColor)
-    };
-
-    return wizard;
-  };
-
-  // функция создания массива персонажей
-  var makeWizardsArr = function () {
-    var wizards = [];
-    for (var i = 0; i < 4; i++) {
-      wizards.push(makeWizard(WIZARD_NAMES, WIZARD_LAST_NAMES, WIZARD_COAT_COLOR, WIZARD_EYES_COLOR));
-    }
-    return wizards;
-  };
-
-  var wizards = makeWizardsArr();
+  window.colorize(wizardCoat, WIZARD_COAT_COLOR, wizardCoatInput);
+  window.colorize(wizardEyes, WIZARD_EYES_COLOR, wizardEyesInput);
+  window.colorize(wizardFireball, WIZARD_FIREBALL_COLOR, wizardFireballInput);
 
   // функция создания DOM-элемента на основе JS-объекта
   var renderWizard = function (wizard) {
     var wizardElement = similarWizardTemplate.cloneNode(true);
 
     wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
 
     return wizardElement;
   };
 
-
-  var createWizzards = function () {
+  var onLoad = function (wizards) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < wizards.length; i++) {
-      fragment.appendChild(renderWizard(wizards[i]));
+    var displayedWizards = window.utils.getRandomArrNValues(wizards, 4);
+
+    for (var i = 0; i < displayedWizards.length; i++) {
+      fragment.appendChild(renderWizard(displayedWizards[i]));
     }
     similarListElement.appendChild(fragment);
+
+    userDialog.querySelector('.setup-similar').classList.remove('hidden');
   };
 
-  createWizzards();
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'display: flex; z-index: 100; margin: 0 auto; justify-content: center; align-items: center; background-color: #FA5555; opacity: 0.8; width: 50%; top: 50%; height: 30%;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
 
-  window.colorize(wizardCoat, WIZARD_COAT_COLOR, wizardCoatInput);
-  window.colorize(wizardEyes, WIZARD_EYES_COLOR, wizardEyesInput);
-  window.colorize(wizardFireball, WIZARD_FIREBALL_COLOR, wizardFireballInput);
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+    setTimeout(function () {
+      node.remove();
+    }, 6000);
+
+
+  };
+
+  window.backend.load(LOAD_URL, onLoad, onError);
+
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(SAVE_URL, new FormData(form), function () {
+      userDialog.classList.add('hidden');
+    }, onError);
+    evt.preventDefault();
+  });
 })();

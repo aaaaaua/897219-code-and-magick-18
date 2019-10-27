@@ -21,6 +21,13 @@ window.utils = (function () {
     getRandomValue: function (min, max) {
       var rand = min + Math.random() * (max - min);
       return rand;
-    }
+    },
+    getRandomArrNValues: function (array, n) { // возвращает указанное колличество случайных элементов из массива
+      var arrayCopy = array.slice();
+      var shuffled = arrayCopy.sort(function () {
+        return Math.random() - 0.5;
+      });
+      return shuffled.slice(0, n);
+    },
   };
 })();
