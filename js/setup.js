@@ -12,8 +12,8 @@
   var wizardFireball = document.querySelector('.setup-fireball-wrap');
   var wizardFireballInput = wizardFireball.querySelector('input');
 
-  var LOAD_URL = 'https://js.dump.academy/code-and-magick/data111';
-  var SAVE_URL = 'https://js.dump.academy/code-and-magick1111/';
+  var LOAD_URL = 'https://js.dump.academy/code-and-magick/data';
+  var SAVE_URL = 'https://js.dump.academy/code-and-magick/';
 
   var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
